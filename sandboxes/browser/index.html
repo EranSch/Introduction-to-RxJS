@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browser Events</title>
+  <script src="/node_modules/rx/dist/rx.lite.js" charset="utf-8"></script>
+  <script src="/node_modules/rx-dom/dist/rx.dom.js" charset="utf-8"></script>
+</head>
+<body>
+  <input id="textInput" type="text"></input>
+  <ul id="results"></ul>
+
+  <script>
+    'use strict';
+    (function(){
+
+      var textInput = document.getElementById('textInput');
+      var resultList = document.getElementById('results');
+
+      var throttledInput = Rx.DOM.keyup(textInput)
+        .pluck('target', 'value')
+        .filter(v => v.length > 2)
+        .throttle(500)
+        .distinctUntilChanged();
+
+      var suggestions = throttledInput.flatMapLatest(searchWikipedia);
+
+      function searchWikipedia(term) {
+        console.info('AJAX Fired :', term)
+        var url = `http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=${encodeURIComponent(term)}&callback=JSONPCallback`
+        return Rx.DOM.jsonpRequest(url);
+      }
+
+      function clearSelector (element) {
+        while (element.firstChild) {
+          element.removeChild(element.firstChild);
+        }
+      }
+
+      function createLineItem(text) {
+        var li = document.createElement('li');
+        li.innerHTML = text;
+        return li;
+      }
+
+      suggestions.subscribe(
+        data => {
+          var results = data.response[1];
+          clearSelector(resultList);
+          for (var i = 0; i < results.length; i++) {
+            resultList.appendChild(createLineItem(results[i]));
+          }
+        },
+        error => {
+          clearSelector(resultList);
+          resultList.appendChild(createLineItem('Error: ' + e));
+        }
+      );
+
+
+      // textInput.addEventListener('keyup', handleKeyup);
+      // function handleKeyup(e) {
+      //   var val = e.target.value;
+      //   if (val.length > 2) {
+      //
+      //   }
+      // }
+
+    })();
+  </script>
+
+</body>
+</html>
