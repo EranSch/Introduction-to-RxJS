@@ -11,7 +11,7 @@ https://slides.com/eranschoellhorn/intro-to-rxjs
 
 In this repository you'll find several tech demos which use RxJS to explore various basic use cases. Here's the breakdown:
 
-- `demos/draggable` : ** Draggable** - A macbook sticker placer thing  
+- `demos/draggable` : **Draggable** - A macbook sticker placer thing  
  1. The API needs a proxy to get around CORS junk so you'll need to fire up a small node server before launching the demo.
  2. `npm install`
  2. `node server` - Run in one tab, leave running while using demo
