@@ -1,0 +1,42 @@
+@import "~normalize.css/normalize.css";
+
+html {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+.wrap {
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.board,
+.menu {
+  flex: 1;
+  height: 100%;
+  padding: 1em;
+}
+
+.board {
+  background-color: #EFEFEF;
+  flex: 2;
+  position: relative;
+}
+
+.menu {
+  background-color: #888;
+  max-width: 12em;
+}
+
+@import "_menu.css";
+@import "_board.css";
+@import "_icons.css";

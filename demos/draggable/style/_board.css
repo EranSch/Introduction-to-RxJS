@@ -1,0 +1,11 @@
+.board {
+  background-image: url(/images/macbook.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.board .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
